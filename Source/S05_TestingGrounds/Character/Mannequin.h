@@ -22,6 +22,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AGun> GunBlueprint;
 
+
+
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void PullTrigger();
 
@@ -32,6 +34,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void UnPossessed() override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
