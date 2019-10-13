@@ -68,6 +68,7 @@ void AMannequin::Tick(float DeltaTime)
 void AMannequin::UnPossessed()
 {
 	Super::UnPossessed();
+	Mesh1P->DestroyComponent(true);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint_0")); //Attach gun mesh component to Skeleton, doing it here because the skelton is not yet created in the constructor
 }
 
