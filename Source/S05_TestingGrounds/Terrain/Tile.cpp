@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "S05_TestingGrounds.h"
+#include "DrawDebugHelpers.h"
 #include "Tile.h"
 
 
@@ -35,7 +36,7 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn)
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CastSphere(FVector(2800.f,-490.f,00.f), 300.f);
 }
 
 // Called every frame
@@ -43,5 +44,50 @@ void ATile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+bool ATile::CastSphere(FVector Location, float Radius)
+{
+	FHitResult HitResult;
+
+	bool IsHitSphere = GetWorld()->SweepSingleByChannel(
+		HitResult,
+		Location,
+		Location,
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel2,
+		FCollisionShape::MakeSphere(Radius));
+	FColor Color;
+
+
+		Color = IsHitSphere ? FColor::Red : FColor::Green;
+
+
+	DrawDebugSphere(
+		GetWorld(),
+		Location*2,
+		Radius,
+		32,
+		Color,
+		true,
+		-1.f,
+		0
+	);
+
+	DrawDebugCapsule(
+		GetWorld(), 
+		Location, 
+		0,
+		Radius, 
+		FQuat::Identity, 
+		Color, 
+		true, 
+		-1,
+		0,
+		2
+	);
+
+	UE_LOG(LogTemp, Warning, TEXT("Check radius"));
+	return IsHitSphere;
 }
 
