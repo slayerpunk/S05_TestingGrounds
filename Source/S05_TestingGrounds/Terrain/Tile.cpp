@@ -12,16 +12,21 @@ ATile::ATile()
 
 }
 
-void ATile::PlaceActors()
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn)
 {
-	FVector Min = FVector(0.f, -2000.f, -119.f);
-	FVector Max = FVector(4000.f, 2000.f, -119.f);
+	FVector Min = FVector(0.f, -2000.f, 0.f);
+	FVector Max = FVector(4000.f, 2000.f, 0.f);
 	FBox Bounds(Min, Max);
-	FVector RandPoint;
-	for (int i = 0; i < 20; i++)
+	
+	int ItemsToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);	
+	for (int i = 0; i < ItemsToSpawn; i++)
 	{
-		RandPoint = FMath::RandPointInBox(Bounds);
-		UE_LOG(LogTemp, Warning, TEXT("RandPoint is %s"), *RandPoint.ToString());
+		float Rotation = FMath::RandRange(-180.f, 180.f);
+		FVector SpawnPoint = FMath::RandPointInBox(Bounds);
+		FRotator SpawnRotation = FRotator::ZeroRotator;
+		SpawnRotation.Yaw = Rotation;
+		AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn, SpawnPoint, SpawnRotation);
+		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	}
 
 }
