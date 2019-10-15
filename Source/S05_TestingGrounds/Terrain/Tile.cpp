@@ -2,6 +2,8 @@
 
 #include "S05_TestingGrounds.h"
 #include "DrawDebugHelpers.h"
+#include "InfiniteTerrainGameMode.h"
+#include "ActorPool.h"
 #include "Tile.h"
 
 
@@ -69,6 +71,12 @@ void ATile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ATile::SetPool(UActorPool * ActorPool)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Actor Pool: %s"), *ActorPool->GetName())
+	Pool = ActorPool;
 }
 
 bool ATile::IsCanSpawnAtLocation(FVector Location, float Radius)
