@@ -16,13 +16,34 @@ UActorPool::UActorPool()
 
 AActor * UActorPool::CheckOut()
 {
-	return nullptr;
+	
+	if (Pool.Num() <= 0) 
+	{ 
+		UE_LOG(LogTemp, Warning, TEXT("Try to Pop absent element"));
+		return nullptr;
+	}
+	return Pool.Pop(false);
 }
+
 
 void UActorPool::Return(AActor * ActortoReturn)
 {
+	if (!ActortoReturn) 
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Try to return nullptr"));
+		return; 
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Actor added %s"), *ActortoReturn->GetName());
+	Pool.Push(ActortoReturn);
 }
 
 void UActorPool::Add(AActor * ActorToAdd)
 {
+	if (!ActorToAdd)
+	{ 
+		UE_LOG(LogTemp, Warning, TEXT("Try to add nullptr"));
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Actor added %s"), *ActorToAdd->GetName());
+	Pool.Push(ActorToAdd);
 }

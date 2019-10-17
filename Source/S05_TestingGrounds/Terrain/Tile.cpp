@@ -21,6 +21,11 @@ void ATile::BeginPlay()
 	Super::BeginPlay();
 
 }
+void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	UE_LOG(LogTemp, Warning, TEXT("%s: EndPlay"), *GetName())
+	Pool->Return(NavMeshBoundsVolume);
+}
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 
@@ -40,9 +45,8 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int MinSpawn, int MaxSpawn,
 
 bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 {
-	 	FVector Min = FVector(0.f, -2000.f, 0.f);
-	 	FVector Max = FVector(4000.f, 2000.f, 0.f);
-	 	FBox Bounds(Min, Max);
+	 	
+	 	FBox Bounds(MinExtent, MaxExtent);
 		const int MAX_ATTEMPTS = 25;
 		for (int i = 0; i < MAX_ATTEMPTS; i++)
 		{
@@ -64,8 +68,6 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnLocation, float
 	 Spawned->SetActorScale3D(FVector(Scale));
 }
 
-
-
 // Called every frame
 void ATile::Tick(float DeltaTime)
 {
@@ -75,8 +77,25 @@ void ATile::Tick(float DeltaTime)
 
 void ATile::SetPool(UActorPool * ActorPool)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Actor Pool: %s"), *ActorPool->GetName())
+	
 	Pool = ActorPool;
+
+	PositionNavMeshBoundsVolume();
+
+}
+
+void ATile::PositionNavMeshBoundsVolume()
+{
+	UE_LOG(LogTemp, Warning, TEXT("PositionNavMesh Called by %s"), *GetName())
+	NavMeshBoundsVolume = Pool->CheckOut();
+	if (!NavMeshBoundsVolume)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Not enough NavMeshVolumes"));
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%s get NavMesh %s and set location %s"),*GetName(),*NavMeshBoundsVolume->GetName(), *GetActorLocation().ToString());
+	
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
 }
 
 bool ATile::IsCanSpawnAtLocation(FVector Location, float Radius)
