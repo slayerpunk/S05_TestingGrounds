@@ -95,7 +95,8 @@ void ATile::PositionNavMeshBoundsVolume()
 	}
 	UE_LOG(LogTemp, Warning, TEXT("%s get NavMesh %s and set location %s"),*GetName(),*NavMeshBoundsVolume->GetName(), *GetActorLocation().ToString());
 	
-	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavMeshBoundsOffset);
+	GetWorld()->GetNavigationSystem()->Build();
 }
 
 bool ATile::IsCanSpawnAtLocation(FVector Location, float Radius)

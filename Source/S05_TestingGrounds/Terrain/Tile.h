@@ -26,6 +26,9 @@ protected:
 	FVector MinExtent = FVector(0.f, -2000.f, 0.f);
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	FVector MaxExtent = FVector(4000.f, 2000.f, 0.f);
+
+	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	FVector NavMeshBoundsOffset = FVector(2000.f, 0.f, 0.f);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
