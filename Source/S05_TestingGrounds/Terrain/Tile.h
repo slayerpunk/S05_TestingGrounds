@@ -39,7 +39,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	FVector MinExtent = FVector(0.f, -2000.f, 0.f);
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	FVector MaxExtent = FVector(4000.f, 2000.f, 0.f);
+	FVector MaxExtent = FVector(4000.f, 2000.f,  0.f);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	FVector NavMeshBoundsOffset = FVector(2000.f, 0.f, 0.f);
@@ -59,18 +59,23 @@ private:
 
 	void PositionNavMeshBoundsVolume();
 	
-	TArray<FSpawnPosition> RandomSpawnPositions(int MinSpawn, int MaxSpawn, float Radius, float MinScale, float MaxScale);
-
 	bool FindEmptyLocation(FVector &SpawnLocation, float Radius);
 
+	
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition &SpawnPosition);
 	
 	bool IsCanSpawnAtLocation(FVector Location, float Radius);
 	
-	void PlaceAI(TSubclassOf<APawn> ToSpawn, FSpawnPosition &SpawnPosition);
+	void PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition &SpawnPosition);
 
 	UActorPool* Pool = nullptr;
 	
 	AActor* NavMeshBoundsVolume = nullptr;
 	
+
+
+	template<class T>
+	void RandomlyActors(TSubclassOf<T> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500.f, float MinScale = 1.f, float MaxScale = 1.f);
 };
+
+
