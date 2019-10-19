@@ -25,6 +25,11 @@ void AInfiniteTerrainGameMode::PopulateBoundsVolumePool()
 	}
 }
 
+void AInfiniteTerrainGameMode::TileConquered()
+{
+	Score++;
+}
+
 UActorPool * AInfiniteTerrainGameMode::GetNavMeshPool() const
 {
 	return NavMeshPool;
