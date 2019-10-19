@@ -45,7 +45,7 @@ protected:
 	FVector NavMeshBoundsOffset = FVector(2000.f, 0.f, 0.f);
 
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
-	FVector AIOffset = FVector(0.f, 0.f, 100.f);
+	FVector AIOffset = FVector(0.f, 0.f, 120.f);
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
