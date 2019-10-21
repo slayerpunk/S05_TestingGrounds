@@ -31,6 +31,8 @@ void ATile::SetPool(UActorPool * ActorPool)
 
 }
 
+
+
 void ATile::PositionNavMeshBoundsVolume()
 {
 	UE_LOG(LogTemp, Warning, TEXT("PositionNavMesh Called by %s"), *GetName())
@@ -128,6 +130,7 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FSpawnPosition &SpawnPositio
 	{
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 		Spawned->SetActorScale3D(FVector(SpawnPosition.Scale));
+		ActorsArray.Add(Spawned);
 	}	
 }
 
@@ -137,11 +140,18 @@ void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition & SpawnPositio
 	APawn* Spawned = GetWorld()->SpawnActor<APawn>(ToSpawn, SpawnPosition.Location , Rotation);
 	if (Spawned)
 	{
-
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
-
 		Spawned->SpawnDefaultController();
 		Spawned->Tags.Add(FName("Enemy"));
+		ActorsArray.Add(Spawned);
 	}
 }
 
+void ATile::DestroyActorsOnTile()
+{
+	for (AActor* FoundActor : ActorsArray)
+	{
+		FoundActor->Destroy();
+	}
+	
+}

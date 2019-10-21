@@ -53,7 +53,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Pool")
 	void SetPool(UActorPool* ActorPool);
 
-	
+	UFUNCTION(BlueprintCallable, Category = "Pool")
+	void DestroyActorsOnTile();
 
 private:
 
@@ -72,7 +73,7 @@ private:
 	
 	AActor* NavMeshBoundsVolume = nullptr;
 	
-
+	TArray<AActor*> ActorsArray;
 
 	template<class T>
 	void RandomlyActors(TSubclassOf<T> ToSpawn, int MinSpawn = 1, int MaxSpawn = 1, float Radius = 500.f, float MinScale = 1.f, float MaxScale = 1.f);
