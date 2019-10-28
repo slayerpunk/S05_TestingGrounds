@@ -33,7 +33,6 @@ void UActorPool::Return(AActor * ActortoReturn)
 		UE_LOG(LogTemp, Warning, TEXT("Try to return nullptr"));
 		return; 
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Actor added %s"), *ActortoReturn->GetName());
 	Pool.Push(ActortoReturn);
 }
 
@@ -44,6 +43,5 @@ void UActorPool::Add(AActor * ActorToAdd)
 		UE_LOG(LogTemp, Warning, TEXT("Try to add nullptr"));
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Actor added %s"), *ActorToAdd->GetName());
 	Pool.Push(ActorToAdd);
 }

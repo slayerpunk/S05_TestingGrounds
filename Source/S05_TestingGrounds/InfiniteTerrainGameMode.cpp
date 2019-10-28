@@ -39,9 +39,7 @@ void AInfiniteTerrainGameMode::AddToPool(ANavMeshBoundsVolume * VolumeToAdd)
 {
 	if (!NavMeshPool)
 	{ 
-		UE_LOG(LogTemp, Warning, TEXT("No NavMeshPool"));
 		return; 
 	}
 	NavMeshPool->Add(VolumeToAdd);
-	UE_LOG(LogTemp, Warning, TEXT("NavMesh: %s"), *VolumeToAdd->GetName());
 }

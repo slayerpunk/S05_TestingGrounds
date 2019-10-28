@@ -19,31 +19,23 @@ ATile::ATile()
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void ATile::SetPool(UActorPool * ActorPool)
 {
-
 	Pool = ActorPool;
-
 	PositionNavMeshBoundsVolume();
-
 }
-
-
 
 void ATile::PositionNavMeshBoundsVolume()
 {
-	UE_LOG(LogTemp, Warning, TEXT("PositionNavMesh Called by %s"), *GetName())
-		NavMeshBoundsVolume = Pool->CheckOut();
+	NavMeshBoundsVolume = Pool->CheckOut();
 	if (!NavMeshBoundsVolume)
 	{
 		UE_LOG(LogTemp, Error, TEXT("Not enough NavMeshVolumes"));
 		return;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("%s get NavMesh %s and set location %s"), *GetName(), *NavMeshBoundsVolume->GetName(), *GetActorLocation().ToString());
-
+	
 	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavMeshBoundsOffset);
 	GetWorld()->GetNavigationSystem()->Build();
 }
