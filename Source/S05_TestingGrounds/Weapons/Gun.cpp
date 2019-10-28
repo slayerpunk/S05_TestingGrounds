@@ -38,7 +38,7 @@ void AGun::Tick( float DeltaTime )
 
 }
 
-void AGun::OnFire()
+void AGun::OnFire(AActor* WhoShooted)
 {
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
@@ -49,16 +49,17 @@ void AGun::OnFire()
 
 		UWorld* const World = GetWorld();
 		if (World != NULL)
-		{
+		{			
 			// spawn the projectile at the muzzle
-			World->SpawnActor<ABallProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+			ABallProjectile* Projectile = World->SpawnActor<ABallProjectile>(ProjectileClass, SpawnLocation, SpawnRotation);
+			Projectile->WhoShooted = WhoShooted;
 		}
 	}
 
 	// try and play the sound if specified
 	if (FireSound != NULL)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+	{		
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation(), 1.0f);		
 	}
 
 	

@@ -55,7 +55,7 @@ void AMannequin::BeginPlay()
  	Gun->AnimInstanceTP = GetMesh()->GetAnimInstance();
 	if (InputComponent != nullptr)
 	{
-		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
+		//InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
 	}
 }
 
@@ -80,7 +80,7 @@ void AMannequin::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
-void AMannequin::PullTrigger()
+void AMannequin::PullTrigger(AActor* WhoShooted)
 {
-	Gun->OnFire();
+	Gun->OnFire(WhoShooted);
 }

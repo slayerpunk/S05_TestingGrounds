@@ -49,6 +49,6 @@ public:
 
 	/** Fires a projectile. */
 	UFUNCTION(BlueprintCallable, Category = "Input")
-	void OnFire();
+	void OnFire( AActor* WhoShooted);
 	
 };

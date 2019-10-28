@@ -55,7 +55,7 @@ void AFirstPersonCharacter::BeginPlay()
 	Gun->AnimInstanceFP = Mesh1P->GetAnimInstance();
 	if (EnableTouchscreenMovement(InputComponent) == false)
 	{
-		InputComponent->BindAction("Fire", IE_Pressed, Gun, &AGun::OnFire);
+	//	InputComponent->BindAction("Fire", IE_Pressed, Gun, &AGun::OnFire);
 	}
 }
 

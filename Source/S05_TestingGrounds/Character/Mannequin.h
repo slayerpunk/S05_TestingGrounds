@@ -25,7 +25,7 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void PullTrigger();
+	void PullTrigger( AActor* WhoShooted);
 
 protected:
 	// Called when the game starts or when spawned
