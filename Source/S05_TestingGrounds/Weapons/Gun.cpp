@@ -3,6 +3,7 @@
 #include "S05_TestingGrounds.h"
 #include "Gun.h"
 #include "BallProjectile.h"
+#include "Components/PawnNoiseEmitterComponent.h"
 #include "Animation/AnimInstance.h"
 
 
@@ -11,6 +12,8 @@ AGun::AGun()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	PawnNoiseEmitterComp = CreateDefaultSubobject<UPawnNoiseEmitterComponent>(TEXT("PawnNoiseEmitterComp"));
 
 	// Create a gun mesh component
 	FP_Gun = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("FP_Gun"));
@@ -38,7 +41,7 @@ void AGun::Tick( float DeltaTime )
 
 }
 
-void AGun::OnFire(AActor* WhoShooted)
+void AGun::OnFire(AActor* WhoShooted, ACharacter* Shooter)
 {
 	// try and fire a projectile
 	if (ProjectileClass != NULL)
@@ -59,7 +62,7 @@ void AGun::OnFire(AActor* WhoShooted)
 	// try and play the sound if specified
 	if (FireSound != NULL)
 	{		
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation(), 1.0f);		
+		ReportNoise(FireSound, FireSoundVolume, Shooter);
 	}
 
 	
@@ -71,5 +74,19 @@ void AGun::OnFire(AActor* WhoShooted)
 	if (FireAnimationFP != nullptr && AnimInstanceFP != nullptr)
 	{
 			AnimInstanceFP->Montage_Play(FireAnimationFP, 1.f);
+	}
+}
+
+void AGun::ReportNoise(USoundBase * SoundToPlay, float Volume, ACharacter* Shooter)
+{
+	//If we have a valid sound to play, play the sound and
+	//report it to our game
+	if (SoundToPlay)
+	{
+		//Play the actual sound
+		UGameplayStatics::PlaySoundAtLocation(GetWorld(), SoundToPlay, GetActorLocation(), Volume);
+
+		//Report that we've played a sound with a certain volume in a specific location
+		MakeNoise(Volume, Shooter, GetActorLocation());
 	}
 }
